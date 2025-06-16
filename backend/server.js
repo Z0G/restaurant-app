@@ -15,20 +15,24 @@ app.get('/', (req, res) => {
   res.json({ message: 'Restaurant App API is running!' });
 });
 
-// API routes (to be added)
-// app.use('/api/restaurants', require('./routes/restaurants'));
-// app.use('/api/menus', require('./routes/menus'));
-// app.use('/api/recipes', require('./routes/recipes'));
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
+// Test route - move this up before other routes
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Backend connected!' });
 });
+
+// API routes
+app.use('/api/menu', require('./routes/menu'));
+app.use('/api/recipes', require('./routes/recipes'));
 
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
+});
+
+// Error handling middleware - should be last
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
 });
 
 app.listen(PORT, () => {
