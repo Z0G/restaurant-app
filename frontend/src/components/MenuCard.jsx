@@ -31,16 +31,33 @@ const MenuCard = ({ item, onViewRecipe, restaurantName }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
-      <div className="h-48 bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center relative">
-        <span className="text-6xl">{getCategoryIcon(item.category_id)}</span>
+      <div className="h-48 relative overflow-hidden">
+        {item.image_url ? (
+          <img 
+            src={item.image_url} 
+            alt={item.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        
+        {/* Fallback with icon */}
+        <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center" style={{display: item.image_url ? 'none' : 'flex'}}>
+          <span className="text-6xl">{getCategoryIcon(item.category_id)}</span>
+        </div>
+        
+        {/* Overlay badges */}
         <div className="absolute top-3 right-3">
-          <span className="bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-600">
+          <span className="bg-white bg-opacity-90 px-2 py-1 rounded-full text-xs font-medium text-gray-600">
             {item.category_name}
           </span>
         </div>
         <div className="absolute bottom-3 left-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor()}`}>
-            Recipe Available
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.recipe_id ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}`}>
+            {item.recipe_id ? 'Recipe Available' : 'Coming Soon'}
           </span>
         </div>
         {restaurantName && (
@@ -67,10 +84,15 @@ const MenuCard = ({ item, onViewRecipe, restaurantName }) => {
         <div className="flex space-x-2">
           <button 
             onClick={() => onViewRecipe && onViewRecipe(item)}
-            className="flex-1 px-4 py-2 bg-orange-500 text-white text-sm rounded-lg hover:bg-orange-600 transition-colors font-medium flex items-center justify-center space-x-2"
+            disabled={!item.recipe_id}
+            className={`flex-1 px-4 py-2 text-sm rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors ${
+              item.recipe_id 
+                ? 'bg-orange-500 text-white hover:bg-orange-600' 
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
           >
             <span>📖</span>
-            <span>View Recipe</span>
+            <span>{item.recipe_id ? 'View Recipe' : 'Recipe Soon'}</span>
           </button>
         </div>
         

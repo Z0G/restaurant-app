@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import MenuCard from './components/MenuCard';
 import CategoryFilter from './components/CategoryFilter';
@@ -63,6 +63,7 @@ function App() {
     }
   };
 
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
@@ -87,11 +88,6 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-4">Recipe Hub</h1>
           <p className="text-xl mb-8">Discover restaurant recipes and learn to cook your favorite dishes at home</p>
-          <div className="flex justify-center space-x-4">
-            <button className="bg-white text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-              Browse Recipes
-            </button>
-          </div>
         </div>
       </section>
 
